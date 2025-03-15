@@ -4,33 +4,64 @@
 
 @layer base {
   body {
-    @apply bg-gray-900 text-white;
+    background-color: #242424;
+    color: rgba(255, 255, 255, 0.87);
   }
 }
 
 @layer components {
-  .fret {
-    @apply border-r border-gray-600 relative flex items-center justify-center;
+  .string {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(75 85 99);
   }
   
-  .string {
-    @apply absolute w-full h-px bg-gray-600;
+  .fret {
+    border-right-width: 1px;
+    border-color: rgb(75 85 99);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .note-marker {
-    @apply w-8 h-8 rounded-full flex items-center justify-center text-white text-sm transition-transform;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.875rem;
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
   }
   
   .note-marker:hover {
-    @apply transform scale-125 z-10;
+    transform: scale(1.25);
+    z-index: 10;
   }
   
   .footer {
-    @apply fixed bottom-0 w-full bg-gray-800 text-white py-3 text-center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(31 41 55);
+    color: white;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    text-align: center;
   }
   
   .footer a {
-    @apply text-blue-400 hover:text-blue-300;
+    color: rgb(96 165 250);
+  }
+  
+  .footer a:hover {
+    color: rgb(147 197 253);
   }
 }
 
@@ -40,9 +71,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

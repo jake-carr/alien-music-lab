@@ -103,7 +103,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
             value={selectedScaleType || ''}
             onChange={(e) => handleHarmonyChange('scale', e.target.value)}
             className={`w-full bg-gray-700 text-white rounded px-3 py-2 ${selectedChordType ? 'opacity-50 cursor-not-allowed' : ''}`}
-            disabled={!!selectedChordType}
           >
             <option value="">None</option>
             {scaleTypes.map((scale) => (
@@ -118,7 +117,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
             value={selectedChordType || ''}
             onChange={(e) => handleHarmonyChange('chord', e.target.value)}
             className={`w-full bg-gray-700 text-white rounded px-3 py-2 ${selectedScaleType ? 'opacity-50 cursor-not-allowed' : ''}`}
-            disabled={!!selectedScaleType}
           >
             <option value="">None</option>
             {chordTypes.map((chord) => (
