@@ -18,14 +18,15 @@ const App: React.FC = () => {
             <Rhythm />
           </section>
         </div>
-      </div>
-      <footer className="footer">
+        <footer className="footer">
         <p>
           <a href="https://github.com/yourusername/alien-guitar-studio" className="ml-2" target="_blank" rel="noopener noreferrer">
             View on GitHub
           </a>
         </p>
       </footer>
+      </div>
+    
     </div>
   );
 };

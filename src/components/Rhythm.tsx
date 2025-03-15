@@ -339,7 +339,11 @@ const MetronomeSequencer: React.FC = () => {
           className={`px-4 py-2 rounded ${
             mode === 'simple' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
           }`}
-          onClick={() => setMode('simple')}
+          onClick={() => {
+            setMode('simple')
+            setCurrentPreset('')
+            setNoteDivision('4n')
+          }}
         >
           Simple Metronome
         </button>
@@ -432,10 +436,10 @@ const MetronomeSequencer: React.FC = () => {
               className={`w-16 h-16 rounded-full flex items-center justify-center ${
                 currentBeat === beat
                   ? beat === 0 
-                    ? 'bg-purple-600 text-white' 
+                    ? 'bg-green-600 text-white' 
                     : 'bg-blue-600 text-white'
                   : beat === 0
-                    ? 'bg-purple-900 text-gray-300'
+                    ? 'bg-green-900 text-gray-300'
                     : 'bg-gray-700 text-gray-400'
               }`}
             >
@@ -450,16 +454,18 @@ const MetronomeSequencer: React.FC = () => {
           {Object.keys(beats[0].instruments).map((instrument) => (
             <div key={instrument} className="flex items-center space-x-2">
               <div className="w-20 text-white capitalize text-left">{instrument.replace(/([A-Z])/g, ' $1').trim()}</div>
-              <div className="flex-1 grid gap-1" style={{ gridTemplateColumns: `repeat(${beats.length}, minmax(0, 1fr))` }}>
+              <div className="flex-1 grid gap-2" style={{ gridTemplateColumns: `repeat(${beats.length}, minmax(0, 1fr))` }}>
                 {beats.map((beat, i) => (
                   <button
                     key={beat.id}
                     onClick={() => toggleInstrument(i, instrument as keyof Beat['instruments'])}
-                    className={`w-8 h-8 rounded ${
+                    className={`w-full h-10 rounded-sm
+                      ${
                       beat.instruments[instrument as keyof Beat['instruments']]
-                        ? 'bg-blue-500 hover:bg-blue-600'
+                        ? 'bg-green-500 hover:bg-green-600'
                         : 'bg-gray-600 hover:bg-gray-500'
-                    } ${currentBeat === i && isPlaying ? 'ring-2 ring-white' : ''}`}
+                    } ${currentBeat === i && isPlaying ? beat.instruments[instrument as keyof Beat['instruments']]
+                        ? 'bg-green-400' : 'bg-gray-500' : ''}`}
                   />
                 ))}
               </div>

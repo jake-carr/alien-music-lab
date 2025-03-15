@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import * as Tone from 'tone';
 import ControlPanel from './ControlPanel';
 import {
@@ -12,19 +12,20 @@ import {
   getScaleNotes,
   getChordNotes,
   getNoteAtFret,
-  getFrequency
+  getFrequency,
+  STANDARD_TUNING
 } from '../utils/music';
 
 const Fretboard: React.FC = () => {
   const [selectedNote, setSelectedNote] = useState<BaseNote>('C');
   const [selectedAccidental, setSelectedAccidental] = useState<Accidental>('natural');
-  const [selectedScaleType, setSelectedScaleType] = useState<ScaleType | null>('Ionian');
+  const [selectedScaleType, setSelectedScaleType] = useState<ScaleType | null>('Ionian (Major)');
   const [selectedChordType, setSelectedChordType] = useState<ChordType | null>(null);
   const [labelType, setLabelType] = useState<LabelType>('Notes');
   const [showTriads, setShowTriads] = useState(false);
   const [showAllNotes, setShowAllNotes] = useState(false);
   const [showRoot, setShowRoot] = useState(true);
-  const [tuning, setTuning] = useState<string[]>(['E', 'B', 'G', 'D', 'A', 'E']);
+  const [tuning, setTuning] = useState<Note[]>(STANDARD_TUNING);
   const [synth] = useState(new Tone.Synth().toDestination());
 
   const FRETS = Array.from({ length: 12 }, (_, i) => i);
@@ -80,11 +81,18 @@ const Fretboard: React.FC = () => {
     return (index + 1).toString();
   };
 
-  const handleTuningChange = (stringIndex: number, note: string) => {
+  const handleTuningChange = (stringIndex: number, note: Note) => {
     const newTuning = [...tuning];
     newTuning[stringIndex] = note;
     setTuning(newTuning);
   };
+
+  const resetTuning = () => {
+    setTuning(STANDARD_TUNING);
+  };
+
+  // render fretboard from highest string to lowest
+  const reverseTuning = useMemo(() => tuning.slice().reverse(), [tuning]);
 
   return (
     <div className="space-y-6">
@@ -107,11 +115,12 @@ const Fretboard: React.FC = () => {
         onAllNotesChange={setShowAllNotes}
         onRootChange={setShowRoot}
         onTuningChange={handleTuningChange}
+        onResetTuning={resetTuning}
       />
 
       <div className="w-full overflow-x-auto">
         <div className="relative w-full min-w-[800px]">
-          {tuning.map((string, stringIndex) => (
+          {reverseTuning.map((string, stringIndex) => (
             <div key={string + stringIndex} className="flex h-16 relative">
               <div className="string top-1/2" />
               

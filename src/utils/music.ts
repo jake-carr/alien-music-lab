@@ -1,7 +1,7 @@
 export type Note = 'C' | 'C#' | 'Db' | 'D' | 'D#' | 'Eb' | 'E' | 'F' | 'F#' | 'Gb' | 'G' | 'G#' | 'Ab' | 'A' | 'A#' | 'Bb' | 'B';
 export type BaseNote = 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B';
 export type Accidental = 'natural' | 'sharp' | 'flat';
-export type ScaleType = 'Ionian' | 'Dorian' | 'Phrygian' | 'Lydian' | 'Mixolydian' | 'Aeolian' | 'Locrian';
+export type ScaleType = 'Ionian (Major)' | 'Dorian' | 'Phrygian' | 'Lydian' | 'Mixolydian' | 'Aeolian (Minor)' | 'Locrian';
 export type ChordType = 'Major' | 'Minor' | 'Dominant 7' | 'Major 7' | 'Minor 7' | 'Diminished';
 export type LabelType = 'Notes' | 'Degrees' | 'None';
 
@@ -9,12 +9,12 @@ const NOTES: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#
 const FLAT_NOTES: Note[] = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
 export const SCALE_PATTERNS = {
-  Ionian: [0, 2, 4, 5, 7, 9, 11],
+  'Ionian (Major)': [0, 2, 4, 5, 7, 9, 11],
   Dorian: [0, 2, 3, 5, 7, 9, 10],
   Phrygian: [0, 1, 3, 5, 7, 8, 10],
   Lydian: [0, 2, 4, 6, 7, 9, 11],
   Mixolydian: [0, 2, 4, 5, 7, 9, 10],
-  Aeolian: [0, 2, 3, 5, 7, 8, 10],
+  'Aeolian (Minor)': [0, 2, 3, 5, 7, 8, 10],
   Locrian: [0, 1, 3, 5, 6, 8, 10],
 };
 
@@ -26,6 +26,8 @@ export const CHORD_PATTERNS = {
   'Minor 7': [0, 3, 7, 10],
   Diminished: [0, 3, 6],
 };
+
+export const STANDARD_TUNING = ['E', 'A', 'D', 'G', 'B', 'E'] as Note[]
 
 export function getNoteWithAccidental(baseNote: BaseNote, accidental: Accidental): Note {
   if (accidental === 'natural') return baseNote;
