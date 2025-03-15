@@ -125,8 +125,8 @@ const Fretboard: React.FC = () => {
           <div className="flex h-8 relative">
             <div className="w-16"  /> {/* Space for string labels */}
             {FRETS.map((fret) => (
-              <div key={`marker-${fret}`} className="w-[calc((100%-4rem)/12)] flex justify-center">
-                {[3, 5, 7, 9, 12].includes(fret) && (
+              <div key={`marker-${fret}`} className="w-[calc((100%-4rem)/12)] flex justify-center ">
+                {[1, 3, 5, 7, 9, 12].includes(fret) && (
                   <span className="text-gray-400">{fret}</span>
                 )}
               </div>
@@ -157,7 +157,7 @@ const Fretboard: React.FC = () => {
                   >
                     {(isActive || showAllNotes) && (
                       <div 
-                        className={`note-marker transition-all duration-300 ease-in-out ${
+                        className={`cursor-pointer note-marker transition-all duration-300 ease-in-out ${
                           isRoot && showRoot
                             ? 'bg-green-500'
                             : isTriad

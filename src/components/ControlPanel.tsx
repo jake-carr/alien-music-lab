@@ -206,7 +206,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
       <CollapsibleSection 
         title="Display Options" 
         storageKey="display"
-        summary={`${labelType}, ${[
+        summary={`${labelType}${(showTriads || showAllNotes || showRoot) ? ', ' : ''}${[
           showTriads && 'Triads',
           showAllNotes && 'All Notes',
           showRoot && 'Root'
@@ -215,7 +215,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
         <div className="grid grid-cols-2 gap-6">
           <div>
             <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center">
-              <span className="w-24">Label Type</span>
+              <span className="w-24">Note Labels</span>
               <div className="flex-1 h-px bg-gray-700 ml-2" />
             </h4>
             <div className="space-y-2">
@@ -249,13 +249,13 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
 
           <div>
             <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center">
-              <span className="w-16">Show</span>
+              <span className="w-24">Show Notes</span>
               <div className="flex-1 h-px bg-gray-700 ml-2" />
             </h4>
             <div className="space-y-2">
               {[
-                { label: 'Triads', checked: showTriads, onChange: onTriadsChange },
                 { label: 'All Notes', checked: showAllNotes, onChange: onAllNotesChange },
+                { label: 'Triads', checked: showTriads, onChange: onTriadsChange },
                 { label: 'Root', checked: showRoot, onChange: onRootChange },
               ].map(({ label, checked, onChange }) => (
                 <label key={label} className="flex items-center space-x-2 cursor-pointer group">

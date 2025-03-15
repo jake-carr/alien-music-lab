@@ -396,18 +396,9 @@ const MetronomeSequencer: React.FC = () => {
       <div className="flex items-end justify-center space-x-4 ">
         <button
           onClick={() => isPlaying ? stopSequence() : startSequence()}
-          className="h-[42px] px-4 bg-gray-700 text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300 flex items-center justify-center"
+          className="h-[42px] w-[42px] pt-2 pl-5 aspect-square bg-green-500 text-white rounded-full hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-green-600 transition-colors duration-300 flex items-center justify-center text-center text-md leading-none"
         >
-          {isPlaying ? (
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="4" width="4" height="16" fill="currentColor" />
-              <rect x="14" y="4" width="4" height="16" fill="currentColor" />
-            </svg>
-          ) : (
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 5v14l11-7z" fill="currentColor" />
-            </svg>
-          )}
+          {isPlaying ? "\u23F8" : "\u25B6"}
         </button>
 
         <div className="space-y-2 min-w-[120px] ">
