@@ -296,7 +296,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
       >
         <div>
           <div className="grid grid-cols-6 gap-2">
-            {tuning.slice().reverse().map((note, i) => {
+            {tuning.map((note, i) => {
               const stringNumber = tuning.length - i;
               const isLowest = i === 0;
               const isHighest = i === tuning.length - 1;
@@ -310,7 +310,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                   </div>
                   <select
                     value={note}
-                    onChange={(e) => onTuningChange(tuning.length - 1 - i, e.target.value as Note)}
+                    onChange={(e) => onTuningChange(i, e.target.value as Note)}
                     className="bg-gray-700 text-white rounded px-2 py-1 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 w-full text-center"
                   >
                     {['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].map((n) => (
@@ -326,7 +326,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           {!isStandardTuning && (
             <button
               onClick={onResetTuning}
-              className="w-full mt-3 px-3 py-1.5 text-sm text-green-500 hover:text-green-400 border border-green-500/30 hover:border-green-400/30 rounded transition-colors flex items-center justify-center gap-2"
+              className="w-auto mt-3 px-3 py-1.5 text-sm text-green-500 hover:text-green-400 border border-green-500/30 hover:border-green-400/30 rounded transition-colors flex items-center justify-center gap-2"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />

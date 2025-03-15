@@ -28,7 +28,8 @@ const Fretboard: React.FC = () => {
   const [tuning, setTuning] = useState<Note[]>(STANDARD_TUNING);
   const [synth] = useState(new Tone.Synth().toDestination());
 
-  const FRETS = Array.from({ length: 12 }, (_, i) => i);
+  // Changed to 12 frets
+  const FRETS = Array.from({ length: 12 }, (_, i) => i + 1);
   const currentNote = getNoteWithAccidental(selectedNote, selectedAccidental);
   
   const activeNotes = React.useMemo(() => {
@@ -118,22 +119,40 @@ const Fretboard: React.FC = () => {
         onResetTuning={resetTuning}
       />
 
-      <div className="w-full overflow-x-auto">
-        <div className="relative w-full min-w-[800px]">
+      <div className="w-full overflow-x-hidden">
+        <div className="relative w-full" style={{ maxWidth: '960px', margin: '0 auto' }}>
+          {/* Fret markers */}
+          <div className="flex h-8 relative">
+            <div className="w-16"  /> {/* Space for string labels */}
+            {FRETS.map((fret) => (
+              <div key={`marker-${fret}`} className="w-[calc((100%-4rem)/12)] flex justify-center">
+                {[3, 5, 7, 9, 12].includes(fret) && (
+                  <span className="text-gray-400">{fret}</span>
+                )}
+              </div>
+            ))}
+          </div>
+          
           {reverseTuning.map((string, stringIndex) => (
             <div key={string + stringIndex} className="flex h-16 relative">
-              <div className="string top-1/2" />
+              {/* String label on the left */}
+              <div className="w-16 flex justify-center items-center ">
+                <span className="text-gray-400 font-bold">{string}</span>
+              </div>
+              
+              <div className="string absolute left-16 right-0 top-1/2" />
               
               {FRETS.map((fret) => {
                 const note = getNoteAtFret(string as Note, fret);
                 const isActive = activeNotes.includes(note);
                 const isRoot = note === currentNote;
                 const isTriad = getTriadNotes(activeNotes).includes(note);
+                const isLastFret = fret === FRETS.length;
                 
                 return (
                   <div
                     key={`${stringIndex}-${fret}`}
-                    className="fret w-16 h-full"
+                    className={`fret w-[calc((100%-4rem)/12)] h-full ${isLastFret ? 'border-r-0' : ''}`}
                     onClick={() => handleFretClick(stringIndex, fret)}
                   >
                     {(isActive || showAllNotes) && (
