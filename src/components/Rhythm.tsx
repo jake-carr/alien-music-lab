@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import * as Tone from 'tone';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 interface Beat {
   id: string;
@@ -79,11 +80,11 @@ const PRESETS: Record<string, BeatPreset> = {
 };
 
 const MetronomeSequencer: React.FC = () => {
-  const [mode, setMode] = useState<MetronomeMode>('simple');
-  const [bpm, setBpm] = useState(100);
+  const [mode, setMode] = useLocalStorage<MetronomeMode>('metronomeMode', 'simple');
+  const [bpm, setBpm] = useLocalStorage('bpm', 100);
+  const [noteDivision, setNoteDivision] = useLocalStorage<NoteDivision>('noteDivision', '4n');
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentBeat, setCurrentBeat] = useState(0);
-  const [noteDivision, setNoteDivision] = useState<NoteDivision>('4n');
   const sequencerRef = useRef<any>(null);
 
   // Store patterns for each note division

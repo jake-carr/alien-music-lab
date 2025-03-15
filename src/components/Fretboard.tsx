@@ -15,17 +15,18 @@ import {
   getFrequency,
   STANDARD_TUNING
 } from '../utils/music';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const Fretboard: React.FC = () => {
-  const [selectedNote, setSelectedNote] = useState<BaseNote>('C');
-  const [selectedAccidental, setSelectedAccidental] = useState<Accidental>('natural');
-  const [selectedScaleType, setSelectedScaleType] = useState<ScaleType | null>('Ionian (Major)');
-  const [selectedChordType, setSelectedChordType] = useState<ChordType | null>(null);
-  const [labelType, setLabelType] = useState<LabelType>('Notes');
-  const [showTriads, setShowTriads] = useState(false);
-  const [showAllNotes, setShowAllNotes] = useState(false);
-  const [showRoot, setShowRoot] = useState(true);
-  const [tuning, setTuning] = useState<Note[]>(STANDARD_TUNING);
+  const [selectedNote, setSelectedNote] = useLocalStorage<BaseNote>('selectedNote', 'C');
+  const [selectedAccidental, setSelectedAccidental] = useLocalStorage<Accidental>('selectedAccidental', 'natural');
+  const [selectedScaleType, setSelectedScaleType] = useLocalStorage<ScaleType | null>('selectedScaleType', 'Ionian (Major)');
+  const [selectedChordType, setSelectedChordType] = useLocalStorage<ChordType | null>('selectedChordType', null);
+  const [labelType, setLabelType] = useLocalStorage<LabelType>('labelType', 'Notes');
+  const [showTriads, setShowTriads] = useLocalStorage<boolean>('showTriads', false);
+  const [showAllNotes, setShowAllNotes] = useLocalStorage<boolean>('showAllNotes', false);
+  const [showRoot, setShowRoot] = useLocalStorage<boolean>('showRoot', true);
+  const [tuning, setTuning] = useLocalStorage<Note[]>('tuning', STANDARD_TUNING);
   const [synth] = useState(new Tone.Synth().toDestination());
 
   // Changed to 12 frets
