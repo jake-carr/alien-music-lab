@@ -157,11 +157,11 @@ const Fretboard: React.FC = () => {
                   >
                     {(isActive || showAllNotes) && (
                       <div 
-                        className={`note-marker ${
+                        className={`note-marker transition-all duration-300 ease-in-out ${
                           isRoot && showRoot
-                            ? 'bg-blue-500'
-                            : isTriad
                             ? 'bg-green-500'
+                            : isTriad
+                            ? 'bg-blue-500'
                             : isActive
                             ? 'bg-gray-600'
                             : 'bg-gray-700'
