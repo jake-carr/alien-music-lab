@@ -123,11 +123,11 @@ const Fretboard: React.FC = () => {
         <div className="relative w-full" style={{ maxWidth: '960px', margin: '0 auto' }}>
           {/* Fret markers */}
           <div className="flex h-8 relative">
-            <div className="w-16"  /> {/* Space for string labels */}
+            <div className="w-16" /> {/* Space for string labels */}
             {FRETS.map((fret) => (
-              <div key={`marker-${fret}`} className="w-[calc((100%-4rem)/12)] flex justify-center ">
+              <div key={`marker-${fret}`} className="w-[calc((100%-4rem)/12)] flex justify-center">
                 {[1, 3, 5, 7, 9, 12].includes(fret) && (
-                  <span className="text-gray-400">{fret}</span>
+                  <span className="text-white text-sm">{fret}</span>
                 )}
               </div>
             ))}
@@ -136,8 +136,8 @@ const Fretboard: React.FC = () => {
           {reverseTuning.map((string, stringIndex) => (
             <div key={string + stringIndex} className="flex h-16 relative">
               {/* String label on the left */}
-              <div className="w-16 flex justify-center items-center ">
-                <span className="text-gray-400 font-bold">{string}</span>
+              <div className="w-16 flex justify-center items-center">
+                <span className="text-white text-sm">{string}</span>
               </div>
               
               <div className="string absolute left-16 right-0 top-1/2" />
@@ -159,13 +159,13 @@ const Fretboard: React.FC = () => {
                       <div 
                         className={`cursor-pointer note-marker transition-all duration-300 ease-in-out ${
                           isRoot && showRoot
-                            ? 'bg-green-500'
+                            ? 'bg-green-500 text-white'
                             : isTriad
-                            ? 'bg-blue-500'
+                            ? 'bg-blue-500 text-white'
                             : isActive
-                            ? 'bg-gray-600'
-                            : 'bg-gray-700'
-                        } hover:bg-gray-700/30`}
+                            ? 'bg-gray-700 text-gray-200'
+                            : 'bg-gray-800 text-gray-300'
+                        } hover:opacity-90`}
                       >
                         {getNoteLabel(note)}
                       </div>

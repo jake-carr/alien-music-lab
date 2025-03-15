@@ -25,23 +25,6 @@ interface BeatPreset {
 }
 
 const PRESETS: Record<string, BeatPreset> = {
-  'Basic Rock': {
-    name: 'Basic Rock',
-    noteDivision: '8n',
-    pattern: Array.from({ length: 8 }, (_, i) => ({
-      id: `beat-${i}`,
-      instruments: {
-        hihat: true,
-        snare: i === 2 || i === 6,
-        kick: i === 0 || i === 3 || i === 5,
-        cymbal: false,
-        highTom: false,
-        midTom: false,
-        lowTom: false,
-        clap: false
-      }
-    }))
-  },
   'Simple Backbeat': {
     name: 'Simple Backbeat',
     noteDivision: '4n',
@@ -51,6 +34,23 @@ const PRESETS: Record<string, BeatPreset> = {
         hihat: true,
         snare: i % 2 === 1,
         kick: i % 2 === 0,
+        cymbal: false,
+        highTom: false,
+        midTom: false,
+        lowTom: false,
+        clap: false
+      }
+    }))
+  },
+  'Basic Rock': {
+    name: 'Basic Rock',
+    noteDivision: '8n',
+    pattern: Array.from({ length: 8 }, (_, i) => ({
+      id: `beat-${i}`,
+      instruments: {
+        hihat: true,
+        snare: i === 2 || i === 6,
+        kick: i === 0 || i === 3 || i === 5,
         cymbal: false,
         highTom: false,
         midTom: false,
@@ -80,10 +80,10 @@ const PRESETS: Record<string, BeatPreset> = {
 
 const MetronomeSequencer: React.FC = () => {
   const [mode, setMode] = useState<MetronomeMode>('simple');
-  const [bpm, setBpm] = useState(120);
+  const [bpm, setBpm] = useState(100);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentBeat, setCurrentBeat] = useState(0);
-  const [noteDivision, setNoteDivision] = useState<NoteDivision>('8n');
+  const [noteDivision, setNoteDivision] = useState<NoteDivision>('4n');
   const sequencerRef = useRef<any>(null);
 
   // Store patterns for each note division

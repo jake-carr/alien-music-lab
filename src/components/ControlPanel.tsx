@@ -1,6 +1,7 @@
 import React from 'react';
 import { BaseNote, Accidental, ScaleType, ChordType, LabelType, Note, STANDARD_TUNING } from '../utils/music';
 import CollapsibleSection from './CollapsibleSection';
+
 interface ControlPanelProps {
   selectedNote: BaseNote;
   selectedAccidental: Accidental;
@@ -60,7 +61,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
         summary={selectedNote}
       >
         <div className="relative w-56 h-56 mx-auto mt-6 mb-4">
-          <div className="absolute inset-0 rounded-full border-2 border-gray-700 opacity-50" 
+          <div className="absolute inset-0 rounded-full border-2 border-gray-700/50 opacity-50" 
                style={{ 
                  width: '224px',  
                  height: '224px',
@@ -80,8 +81,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                 onClick={() => onNoteChange(note)}
                 className={`absolute w-14 h-14 rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 transition-all duration-200 ${
                   selectedNote === note
-                    ? 'bg-green-500 text-white scale-110 shadow-lg shadow-green-500/20'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:scale-105'
+                    ? 'bg-green-500 text-white scale-110 shadow-lg shadow-green-500/50'
+                    : 'bg-gray-800/80 text-gray-300 hover:bg-gray-700/80 hover:scale-105 hover:text-white'
                 }`}
                 style={{
                   left: `${x}px`,
@@ -106,10 +107,10 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
             <button
               key={value}
               onClick={() => onAccidentalChange(value)}
-              className={`flex-1 px-3 py-2 rounded-lg transition-colors ${
+              className={`flex-1 px-3 py-2 rounded-lg transition-all duration-200 ${
                 selectedAccidental === value
-                  ? 'bg-green-500 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-green-500 text-white shadow-lg shadow-green-500/30'
+                  : 'bg-gray-800/80 text-gray-300 hover:bg-gray-700/80 hover:text-white'
               }`}
             >
               <span className="text-lg">{symbol}</span>
@@ -129,7 +130,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           <div>
             <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center">
               <span className="w-16">Scale</span>
-              <div className="flex-1 h-px bg-gray-700 ml-2" />
+              <div className="flex-1 h-px bg-gray-700/50 ml-2" />
             </h4>
             <div className="grid grid-cols-2 gap-x-4 gap-y-2">
               {[...scaleTypes, null].map((scale) => (
@@ -147,8 +148,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                     />
                     <div className={`w-4 h-4 border-2 rounded-full transition-all duration-200 ${
                       selectedScaleType === scale
-                        ? 'border-green-500 bg-green-500 scale-110'
-                        : 'border-gray-400 group-hover:border-green-400'
+                        ? 'border-green-500 bg-green-500 scale-110 shadow-sm shadow-green-500/30'
+                        : 'border-gray-500 group-hover:border-green-400'
                     }`}>
                       {selectedScaleType === scale && (
                         <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
@@ -166,7 +167,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           <div>
             <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center">
               <span className="w-16">Chord</span>
-              <div className="flex-1 h-px bg-gray-700 ml-2" />
+              <div className="flex-1 h-px bg-gray-700/50 ml-2" />
             </h4>
             <div className="grid grid-cols-2 gap-x-4 gap-y-2">
               {[...chordTypes, null].map((chord) => (
@@ -184,8 +185,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                     />
                     <div className={`w-4 h-4 border-2 rounded-full transition-all duration-200 ${
                       selectedChordType === chord
-                        ? 'border-green-500 bg-green-500 scale-110'
-                        : 'border-gray-400 group-hover:border-green-400'
+                        ? 'border-green-500 bg-green-500 scale-110 shadow-sm shadow-green-500/30'
+                        : 'border-gray-500 group-hover:border-green-400'
                     }`}>
                       {selectedChordType === chord && (
                         <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
@@ -216,7 +217,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           <div>
             <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center">
               <span className="w-24">Note Labels</span>
-              <div className="flex-1 h-px bg-gray-700 ml-2" />
+              <div className="flex-1 h-px bg-gray-700/50 ml-2" />
             </h4>
             <div className="space-y-2">
               {labelTypes.map((type) => (
@@ -231,8 +232,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                     />
                     <div className={`w-4 h-4 border-2 rounded-full transition-all duration-200 ${
                       labelType === type
-                        ? 'border-green-500 bg-green-500 scale-110'
-                        : 'border-gray-400 group-hover:border-green-400'
+                        ? 'border-green-500 bg-green-500 scale-110 shadow-sm shadow-green-500/30'
+                        : 'border-gray-500 group-hover:border-green-400'
                     }`}>
                       {labelType === type && (
                         <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
@@ -250,7 +251,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           <div>
             <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center">
               <span className="w-24">Show Notes</span>
-              <div className="flex-1 h-px bg-gray-700 ml-2" />
+              <div className="flex-1 h-px bg-gray-700/50 ml-2" />
             </h4>
             <div className="space-y-2">
               {[
@@ -268,8 +269,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                     />
                     <div className={`w-4 h-4 border-2 rounded transition-all duration-200 ${
                       checked
-                        ? 'border-green-500 bg-green-500 scale-110'
-                        : 'border-gray-400 group-hover:border-green-400'
+                        ? 'border-green-500 bg-green-500 scale-110 shadow-sm shadow-green-500/30'
+                        : 'border-gray-500 group-hover:border-green-400'
                     }`}>
                       {checked && (
                         <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
@@ -311,7 +312,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                   <select
                     value={note}
                     onChange={(e) => onTuningChange(i, e.target.value as Note)}
-                    className="bg-gray-700 text-white rounded px-2 py-1 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 w-full text-center"
+                    className="bg-gray-800/80 text-white rounded px-2 py-1 hover:bg-gray-700/80 focus:outline-none focus:ring-2 focus:ring-green-500 w-full text-center"
                   >
                     {['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].map((n) => (
                       <option key={n} value={n}>

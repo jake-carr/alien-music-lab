@@ -19,19 +19,19 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
   const [isOpen, setIsOpen] = useLocalStorage(`section-${storageKey}`, defaultOpen);
 
   return (
-    <div className="bg-gray-800 rounded-lg overflow-hidden">
+    <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-gray-700/50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 flex items-center justify-between text-left"
+        className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-gray-700/30 transition-colors"
       >
         <div className="flex items-center space-x-3">
           <h3 className="text-white font-medium">{title}</h3>
           {!isOpen && summary && (
-            <span className="text-gray-400 text-sm">{summary}</span>
+            <span className="text-green-400 text-sm font-light">{summary}</span>
           )}
         </div>
         <svg
-          className={`w-5 h-5 text-gray-400 transform transition-transform duration-200 ${
+          className={`w-5 h-5 text-green-400 transform transition-transform duration-200 ${
             isOpen ? 'rotate-180' : ''
           }`}
           viewBox="0 0 20 20"
@@ -49,7 +49,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
           isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
         } overflow-hidden`}
       >
-        <div className="p-4 border-t border-gray-700">{children}</div>
+        <div className="p-4 border-t border-gray-700/50">{children}</div>
       </div>
     </div>
   );

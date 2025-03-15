@@ -28,25 +28,31 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={
-          <div className="min-h-screen bg-gray-900 text-white pb-16">
+          <div className="min-h-screen bg-gray-900">
             <div className="container mx-auto px-4 py-8">
-              <h1 className="text-3xl font-bold text-center mb-8">Alien Guitar Lab</h1>
+              <h1 className="text-4xl font-bold text-center mb-12 font-['Space_Grotesk']">
+                <span className="text-green-500">Alien</span>
+                <span className="text-white"> Music Lab</span>
+              </h1>
               <div className="space-y-8">
-                <section>
-                  <h2 className="text-2xl font-semibold mb-4">Fretboard</h2>
+                <section className="bg-gray-800/50 rounded-lg p-6 shadow-lg">
+                  <h2 className="text-2xl font-semibold mb-4 text-white">Fretboard</h2>
                   <Fretboard />
                 </section>
-                <section>
-                  <h2 className="text-2xl font-semibold mb-4">Rhythm</h2>
+                <section className="bg-gray-800/50 rounded-lg p-6 shadow-lg">
+                  <h2 className="text-2xl font-semibold mb-4 text-white">Rhythm</h2>
                   <Rhythm />
                 </section>
               </div>
-              <footer className="footer">
-                <p>
-                  <a href="https://github.com/yourusername/alien-guitar-studio" className="ml-2 text-green-500 hover:text-green-400" target="_blank" rel="noopener noreferrer">
-                    View on GitHub
-                  </a>
-                </p>
+              <footer className="mt-12 text-center pt-8">
+                <a 
+                  href="https://github.com/jakemitchellxyz/alien-guitar-studio" 
+                  className="text-gray-400 hover:text-green-500 transition-colors duration-300" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  View on GitHub
+                </a>
               </footer>
             </div>
           </div>
