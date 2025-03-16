@@ -2,6 +2,8 @@
 
 A modern web application for musicians to explore scales, chords, and rhythm patterns. Built with [React](https://reactjs.org/) and [Tone.js](https://tonejs.github.io/).
 
+[Live Demo](https://alien-music-lab.web.app/)
+
 ## Features
 
 - **Interactive Fretboard**
