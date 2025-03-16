@@ -58,8 +58,8 @@ const Fretboard: React.FC = () => {
     setSelectedAccidental(accidental);
 
     // Calculate octave based on string and fret position
-    const baseOctave = 4 - Math.floor(stringIndex / 2);
-    const octave = baseOctave + Math.floor((stringIndex * 5 + fret) / 12);
+    const baseOctave = 4;
+    const octave = baseOctave + stringIndex;
     
     // Play the note
     const frequency = getFrequency(note, octave);
@@ -106,9 +106,6 @@ const Fretboard: React.FC = () => {
     setTuning(STANDARD_TUNING);
   };
 
-  // render fretboard from highest string to lowest
-  const reverseTuning = useMemo(() => tuning.slice().reverse(), [tuning]);
-
   return (
     <div className="space-y-6">
       <ControlPanel
@@ -147,7 +144,7 @@ const Fretboard: React.FC = () => {
             ))}
           </div>
           
-          {reverseTuning.map((string, stringIndex) => (
+          {tuning.map((string, stringIndex) => (
             <div key={string + stringIndex} className="flex h-16 relative">
               {/* String label on the left */}
               <div className="w-16 flex justify-center items-center">
@@ -188,7 +185,7 @@ const Fretboard: React.FC = () => {
                 );
               })}
             </div>
-          ))}
+          )).reverse()}
         </div>
       </div>
     </div>
