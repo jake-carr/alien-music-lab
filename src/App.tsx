@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { logAnalyticsEvent } from './firebase';
 import Fretboard from './components/Fretboard';
 import './App.css'
 import Rhythm from './components/Rhythm';
@@ -12,6 +13,13 @@ const App: React.FC = () => {
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 1024);
   const [showAbout, setShowAbout] = useLocalStorage('showAboutModal', false);
 
+  useEffect(() => {
+    logAnalyticsEvent('page_view', {
+      page_title: 'Home',
+      page_location: window.location.href,
+    });
+  }, []);
+
   const handleResize = () => {
     setIsMobileView(window.innerWidth < 1024);
   };
@@ -23,7 +31,17 @@ const App: React.FC = () => {
     };
   }, []);
 
+  const handleGitHubClick = () => {
+    logAnalyticsEvent('github_link_click');
+  };
+
+  const handleAboutClick = () => {
+    logAnalyticsEvent('about_modal_open');
+    setShowAbout(true);
+  };
+
   if (isMobileView) {
+    logAnalyticsEvent('mobile_view_redirect');
     return <MobileNotice />;
   }
 
@@ -53,11 +71,12 @@ const App: React.FC = () => {
                   className="text-gray-400 hover:text-green-500 transition-colors duration-300 text-md" 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  onClick={handleGitHubClick}
                 >
                   View on GitHub
                 </a>
                 <a 
-                  onClick={() => setShowAbout(true)}
+                  onClick={handleAboutClick}
                   className="text-gray-400 hover:text-green-500 transition-colors duration-300 cursor-pointer text-md" 
                 >
                   About
@@ -68,7 +87,10 @@ const App: React.FC = () => {
         } />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <About isOpen={showAbout} onClose={() => setShowAbout(false)} />
+      <About isOpen={showAbout} onClose={() => {
+        logAnalyticsEvent('about_modal_close');
+        setShowAbout(false);
+      }} />
     </Router>
   );
 };

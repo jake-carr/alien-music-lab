@@ -25,19 +25,6 @@ A modern web application for musicians to explore scales, chords, and rhythm pat
 - 📱 Mobile web support and dedicated mobile app
 - 🎛️ Extended beat sequencing with sound customization
 
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-```
-
 ## Built With
 
 - [React](https://reactjs.org/) 
@@ -45,6 +32,7 @@ npm run build
 - [TypeScript](https://www.typescriptlang.org/) 
 - [Tailwind CSS](https://tailwindcss.com/) 
 - [Vite](https://vitejs.dev/)
+- [Firebase](https://firebase.google.com/)
 
 ## License / Contributions
 

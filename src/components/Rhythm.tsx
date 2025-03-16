@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import * as Tone from 'tone';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { logAnalyticsEvent } from '../firebase';
 
 interface Beat {
   id: string;
@@ -85,6 +86,7 @@ const MetronomeSequencer: React.FC = () => {
   const [noteDivision, setNoteDivision] = useLocalStorage<NoteDivision>('noteDivision', '4n');
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentBeat, setCurrentBeat] = useState(0);
+  const [startTime, setStartTime] = useState<number>(0);
   const sequencerRef = useRef<any>(null);
 
   // Store patterns for each note division
@@ -154,9 +156,12 @@ const MetronomeSequencer: React.FC = () => {
       [preset.noteDivision]: preset.pattern
     }));
     setBeats(preset.pattern);
+    logAnalyticsEvent('rhythm_preset_load', {
+      preset: presetName
+    });
   };
 
-  // Initialize Tone.js instruments with more realistic sound design
+  // Initialize Tone.js instruments
   const [instruments] = useState(() => {
     const reverb = new Tone.Reverb({ decay: 0.5, wet: 0.1 }).toDestination();
     const compressor = new Tone.Compressor(-30, 3).toDestination();
@@ -248,9 +253,16 @@ const MetronomeSequencer: React.FC = () => {
   const startSequence = async () => {
     await Tone.start();
     setCurrentBeat(0);
+    setStartTime(Date.now());
     createSequence();
     Tone.getTransport().start();
     setIsPlaying(true);
+    logAnalyticsEvent('rhythm_start', {
+      mode: mode,
+      bpm: bpm,
+      beats: beats,
+      subdivisions: noteDivision
+    });
   };
 
   const stopSequence = () => {
@@ -261,6 +273,9 @@ const MetronomeSequencer: React.FC = () => {
     Tone.getTransport().stop();
     setIsPlaying(false);
     setCurrentBeat(0);  // Reset beat to 1 when stopping
+    logAnalyticsEvent('rhythm_stop', {
+      duration_seconds: Math.floor((Date.now() - startTime) / 1000)
+    });
   };
 
   const createSequence = () => {
@@ -367,6 +382,31 @@ const MetronomeSequencer: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [isPlaying]);
 
+  const handleModeChange = (newMode: MetronomeMode) => {
+    setMode(newMode);
+    logAnalyticsEvent('rhythm_mode_change', {
+      previous_mode: mode,
+      new_mode: newMode
+    });
+  };
+
+  const handleBPMChange = (newBPM: number) => {
+    setBpm(newBPM);
+    Tone.getTransport().bpm.value = newBPM;
+    logAnalyticsEvent('rhythm_bpm_change', {
+      previous_bpm: bpm,
+      new_bpm: newBPM
+    });
+  };
+
+  const handleNoteDivisionChange = (newNoteDivision: NoteDivision) => {
+    setNoteDivision(newNoteDivision);
+    logAnalyticsEvent('rhythm_note_division_change', {
+      previous_note_division: noteDivision,
+      new_note_division: newNoteDivision
+    });
+  };
+
   return (
     <div className="bg-gray-800 p-6 rounded-lg space-y-6" style={{
       minWidth: '910px'
@@ -378,7 +418,7 @@ const MetronomeSequencer: React.FC = () => {
               ? 'text-white border-b-2 border-green-500' 
               : 'text-gray-500 hover:text-gray-300 border-b border-gray-700'
           }`}
-          onClick={() => setMode('simple')}
+          onClick={() => handleModeChange('simple')}
         >
           Simple Metronome
         </div>
@@ -388,7 +428,7 @@ const MetronomeSequencer: React.FC = () => {
               ? 'text-white border-b-2 border-green-500' 
               : 'text-gray-500 hover:text-gray-300 border-b border-gray-700'
           }`}
-          onClick={() => setMode('sequencer')}
+          onClick={() => handleModeChange('sequencer')}
         >
           Beat Sequencer
         </div>
@@ -407,7 +447,7 @@ const MetronomeSequencer: React.FC = () => {
           <input
             type="number"
             value={bpm}
-            onChange={(e) => setBpm(Math.min(300, Math.max(30, Number(e.target.value))))}
+            onChange={(e) => handleBPMChange(Math.min(300, Math.max(30, Number(e.target.value))))}
             className="w-full bg-gray-700 text-white rounded px-3 py-2 border border-gray-600 focus:border-blue-500 focus:outline-none transition-colors duration-300"
           />
         </div>
@@ -416,7 +456,7 @@ const MetronomeSequencer: React.FC = () => {
           <label className="block text-sm font-medium text-gray-400 uppercase tracking-wide text-left">Note Division</label>
           <select
             value={noteDivision}
-            onChange={(e) => setNoteDivision(e.target.value as NoteDivision)}
+            onChange={(e) => handleNoteDivisionChange(e.target.value as NoteDivision)}
             className="w-full bg-gray-700 text-white rounded px-3 py-2 border border-gray-600 focus:border-blue-500 focus:outline-none transition-colors duration-300 appearance-none cursor-pointer pr-8 relative"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,

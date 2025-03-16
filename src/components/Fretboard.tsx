@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import * as Tone from 'tone';
 import ControlPanel from './ControlPanel';
 import {
@@ -16,6 +16,7 @@ import {
   STANDARD_TUNING
 } from '../utils/music';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { logAnalyticsEvent } from '../firebase';
 
 const Fretboard: React.FC = () => {
   const [selectedNote, setSelectedNote] = useLocalStorage<BaseNote>('selectedNote', 'C');
@@ -48,7 +49,7 @@ const Fretboard: React.FC = () => {
     return notes.filter((_, index) => index % 2 === 0);
   };
 
-  const handleFretClick = (stringIndex: number, fret: number) => {
+  const handleFretClick = useCallback((stringIndex: number, fret: number) => {
     const note = getNoteAtFret(tuning[stringIndex] as Note, fret);
     const baseNote = note.charAt(0) as BaseNote;
     const accidental = note.length > 1 ? (note.charAt(1) === '#' ? 'sharp' : 'flat') : 'natural';
@@ -63,7 +64,25 @@ const Fretboard: React.FC = () => {
     // Play the note
     const frequency = getFrequency(note, octave);
     synth.triggerAttackRelease(frequency, '8n');
-  };
+
+    logAnalyticsEvent('fret_click', {
+      string_index: stringIndex,
+      fret_number: fret,
+      note: note,
+      octave: octave
+    });
+  }, [tuning, setSelectedNote, setSelectedAccidental, synth]);
+
+  const handleTuningChange = useCallback((stringIndex: number, note: Note) => {
+    const newTuning = [...tuning];
+    newTuning[stringIndex] = note;
+    setTuning(newTuning);
+    logAnalyticsEvent('tuning_change', {
+      string_index: stringIndex,
+      new_note: note,
+      full_tuning: newTuning.join(',')
+    });
+  }, [tuning, setTuning]);
 
   const getNoteLabel = (note: Note): string => {
     if (labelType === 'None') return '';
@@ -81,12 +100,6 @@ const Fretboard: React.FC = () => {
     
     // degrees
     return (index + 1).toString();
-  };
-
-  const handleTuningChange = (stringIndex: number, note: Note) => {
-    const newTuning = [...tuning];
-    newTuning[stringIndex] = note;
-    setTuning(newTuning);
   };
 
   const resetTuning = () => {
