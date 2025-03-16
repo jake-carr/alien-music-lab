@@ -1,54 +1,52 @@
-# React + TypeScript + Vite
+# Alien Music Lab 🎸
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for musicians to explore scales, chords, and rhythm patterns. Built with [React](https://reactjs.org/) and [Tone.js](https://tonejs.github.io/).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Interactive Fretboard**
+  - Visualize scales and chords across the guitar neck
+  - Multiple note label options (Notes, Degrees, None)
+  - Customizable tuning with easy reset
+  - Audio feedback using Tone.js synthesizer
+  - Triad visualization mode
 
-## Expanding the ESLint configuration
+- **Rhythm Sequencer**
+  - Built-in drum patterns and presets
+  - Adjustable BPM and note divisions
+  - Multiple instrument tracks (hihat, kick, snare, etc.)
+  - Real-time playback with Tone.js
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Upcoming Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- 🎸 Customizable number of frets
+- 🎹 Piano view for keyboard players
+- ⏱️ Additional time signatures and note divisions
+- 📱 Mobile web support and dedicated mobile app
+- 🎛️ Extended beat sequencing with sound customization
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Built With
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- [React](https://reactjs.org/) 
+- [Tone.js](https://tonejs.github.io/) 
+- [TypeScript](https://www.typescriptlang.org/) 
+- [Tailwind CSS](https://tailwindcss.com/) 
+- [Vite](https://vitejs.dev/)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## License / Contributions
+
+This project is licensed under the MIT License.
+Feel free to open issues and pull requests or fork the project.

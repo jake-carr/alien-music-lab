@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Fretboard from './components/Fretboard';
 import './App.css'
 import Rhythm from './components/Rhythm';
 import MobileNotice from './components/MobileNotice';
 import NotFound from './components/NotFound';
+import About from './components/About';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 const App: React.FC = () => {
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 1024);
+  const [showAbout, setShowAbout] = useLocalStorage('showAboutModal', false);
 
   const handleResize = () => {
     setIsMobileView(window.innerWidth < 1024);
@@ -44,14 +47,20 @@ const App: React.FC = () => {
                   <Rhythm />
                 </section>
               </div>
-              <footer className="mt-12 text-center pt-8">
+              <footer className="mt-12 text-center pt-8 space-x-6">
                 <a 
-                  href="https://github.com/jakemitchellxyz/alien-guitar-studio" 
-                  className="text-gray-400 hover:text-green-500 transition-colors duration-300" 
+                  href="https://github.com/jake-carr/alien-music-lab" 
+                  className="text-gray-400 hover:text-green-500 transition-colors duration-300 text-md" 
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
                   View on GitHub
+                </a>
+                <a 
+                  onClick={() => setShowAbout(true)}
+                  className="text-gray-400 hover:text-green-500 transition-colors duration-300 cursor-pointer text-md" 
+                >
+                  About
                 </a>
               </footer>
             </div>
@@ -59,6 +68,7 @@ const App: React.FC = () => {
         } />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <About isOpen={showAbout} onClose={() => setShowAbout(false)} />
     </Router>
   );
 };
