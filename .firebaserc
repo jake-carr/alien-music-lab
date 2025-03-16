@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "alien-music-lab"
+  },
+  "hosting": {
+   "public": "dist",
+   "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+   ]
   }
 }
