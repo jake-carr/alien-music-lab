@@ -49,17 +49,51 @@ const Fretboard: React.FC = () => {
     return notes.filter((_, index) => index % 2 === 0);
   };
 
-  const handleFretClick = useCallback((stringIndex: number, fret: number) => {
-    const note = getNoteAtFret(tuning[stringIndex] as Note, fret);
+  // Calculate the correct octave for a note on the guitar
+  const calculateOctave = (stringIndex: number, fret: number = 0): number => {
+    // Standard tuning string octaves (from low to high): E2, A2, D3, G3, B3, E4
+    const baseOctaves = [2, 2, 3, 3, 3, 4];
+    const stringOctave = baseOctaves[stringIndex];
+    
+    // Each 12 frets increase the octave by 1
+    const octaveIncrease = Math.floor(fret / 12);
+    return stringOctave + octaveIncrease;
+  };
+
+  const handleOpenNoteClick = useCallback((stringIndex: number) => {
+    const note = tuning[stringIndex];
     const baseNote = note.charAt(0) as BaseNote;
     const accidental = note.length > 1 ? (note.charAt(1) === '#' ? 'sharp' : 'flat') : 'natural';
     
+    // Update selected note and accidental
     setSelectedNote(baseNote);
     setSelectedAccidental(accidental);
+    
+    // Get the correct octave for the open string
+    const octave = calculateOctave(stringIndex);
+    
+    // Play the note
+    const frequency = getFrequency(note, octave);
+    synth.triggerAttackRelease(frequency, '8n');
 
-    // Calculate octave based on string and fret position
-    const baseOctave = 4;
-    const octave = baseOctave + stringIndex;
+    logAnalyticsEvent('open_string_click', {
+      string_index: stringIndex,
+      note: note,
+      octave: octave
+    });
+  }, [tuning, setSelectedNote, setSelectedAccidental, synth]);
+
+  const handleFretClick = useCallback((stringIndex: number, fret: number) => {
+    const note = getNoteAtFret(tuning[stringIndex], fret);
+    const baseNote = note.charAt(0) as BaseNote;
+    const accidental = note.length > 1 ? (note.charAt(1) === '#' ? 'sharp' : 'flat') : 'natural';
+    
+    // Update selected note and accidental
+    setSelectedNote(baseNote);
+    setSelectedAccidental(accidental);
+    
+    // Get the correct octave based on string and fret position
+    const octave = calculateOctave(stringIndex, fret);
     
     // Play the note
     const frequency = getFrequency(note, octave);
@@ -147,8 +181,13 @@ const Fretboard: React.FC = () => {
           {tuning.map((string, stringIndex) => (
             <div key={string + stringIndex} className="flex h-16 relative">
               {/* String label on the left */}
-              <div className="w-16 flex justify-center items-center">
-                <span className="text-white text-sm">{string}</span>
+              <div 
+                className="w-16 flex justify-center items-center cursor-pointer hover:bg-gray-700 transition-colors duration-200"
+                onClick={() => handleOpenNoteClick(stringIndex)}
+                role="button"
+                aria-label={`Play open ${string} string`}
+              >
+                <span className="text-white text-lg font-semibold">{string}</span>
               </div>
               
               <div className="string absolute left-16 right-0 top-1/2" />
